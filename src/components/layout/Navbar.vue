@@ -25,7 +25,7 @@ export default {
   .brand-logo {
     font-family: 'Fira Sans Extra Condensed', sans-serif;
     font-weight: 600;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.05rem;
     margin-left: 1rem;;
   }
 
