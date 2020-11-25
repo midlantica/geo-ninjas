@@ -8,29 +8,33 @@
 </template>
 
 <script>
-export default {
-  name: 'GMap',
-  data() {
-    return {
-      lat: 53,
-      lng: -2
+  import db from '@/firebase/init'
+  import firebase from 'firebase/app'
+
+  export default {
+    name: 'GMap',
+    data() {
+      return {
+        lat: 53,
+        lng: -2
+      }
+    },
+    methods: {
+      renderMap() {
+        const map = new google.maps.Map(document.getElementById('map'), {
+          center: { lat: this.lat, lng: this.lng },
+          zoom: 6,
+          maxZoom: 15,
+          minZoom: 3,
+          streetViewControl: false
+        })
+      }
+    },
+    mounted() {
+      this.renderMap()
+      console.log(firebase.auth().currentUser)
     }
-  },
-  methods: {
-    renderMap() {
-      const map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: this.lat, lng: this.lng },
-        zoom: 6,
-        maxZoom: 15,
-        minZoom: 3,
-        streetViewControl: false
-      })
-    }
-  },
-  mounted() {
-    this.renderMap()
   }
-}
 </script>
 
 <style>

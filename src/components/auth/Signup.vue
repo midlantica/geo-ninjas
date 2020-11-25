@@ -61,7 +61,7 @@
                     user_id: cred.user.uid
                   })
                 }).then(() => {
-                  this.$router.push({ name: GMap })
+                  this.$router.push({ name: 'GMap' })
                 })
                 .catch(err => {
                   console.log(err)
