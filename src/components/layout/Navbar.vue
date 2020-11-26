@@ -1,24 +1,34 @@
 <template>
   <nav>
     <div class="nav-wrapper amber darken-4">
-      <a href="#" class="brand-logo left">GeoNinjas!</a>
+      <router-link :to="{ name: 'GMap' }" class="brand-logo left">GeoNinjas!</router-link>
       <ul class="right h100">
-        <li class=""><a href="./signup">Signup</a></li>
-        <li class=""><a href="./login">Login</a></li>
+        <li class=""><router-link :to="{ name: 'Signup' }">Signup</router-link></li>
+        <li class=""><router-link :to="{ name: 'Login' }">Login</router-link></li>
+        <li><a @click="logout">Logout</a></li>
       </ul>
     </div>
   </nav>
 </template>
 
 <script>
-export default {
-  name: 'Navbar',
-  data() {
-    return {
+  import firebase from "firebase/app"
 
+  export default {
+    name: 'Navbar',
+    data() {
+      return {
+
+      }
+    },
+    methods: {
+      logout() {
+        firebase.auth().signOut().then(() => {
+          this.$router.push({ name: 'Login' })
+        })
+      }
     }
   }
-}
 </script>
 
 <style>
