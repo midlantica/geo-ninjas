@@ -8,15 +8,15 @@
 </template>
 
 <script>
-  import db from '@/firebase/init'
   import firebase from 'firebase/app'
+  import db from '@/firebase/init'
 
   export default {
     name: 'GMap',
     data() {
       return {
-        lat: 53,
-        lng: -2
+        lat: 36,
+        lng: -86
       }
     },
     methods: {
@@ -28,15 +28,53 @@
           minZoom: 3,
           streetViewControl: false
         })
+
+        db.collection('users').get().then(users => {
+          users.docs.forEach(doc => {
+            let data = doc.data()
+            if(data.geolocation){
+              let marker = new google.maps.Marker({
+                position: {
+                  lat: data.geolocation.lat,
+                  lng: data.geolocation.lng,
+                },
+                map
+              })
+              // add click event to marker
+              marker.addListener('click', () => {
+                //console.log(doc.id);
+                this.$router.push({ name: 'ViewProfile', params: { id: doc.id }});
+              })
+            }
+          })
+        })
       }
     },
     mounted() {
+      let user = firebase.auth().currentUser
+      console.log(user);
       // get the geolocation
       if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
           this.lat = pos.coords.latitude
           this.lng = pos.coords.longitude
-          this.renderMap()
+
+          // find user id
+          db.collection('users').where('user_id', '==', user.uid).get()
+          .then(snapshot => {
+            snapshot.forEach(doc => {
+              //console.log(doc.id);
+              db.collection('users').doc(doc.id).update({
+                geolocation: {
+                  lat: pos.coords.latitude,
+                  lng: pos.coords.longitude
+                }
+              })
+            })
+          }).then(() => {
+            this.renderMap()
+          })
+
         }, (err) => {
           console.log(err)
           this.renderMap()
