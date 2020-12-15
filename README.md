@@ -1,6 +1,8 @@
 # geo-ninjas
 
-> A Vue.js project
+> A Vue.js project w Firebase and Google Maps
+
+Previe: ![Alt Text](https://github.com/midlantica/geo-ninjas/blob/master/image.png))
 
 ## Build Setup
 
